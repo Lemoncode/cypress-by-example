@@ -25,7 +25,7 @@ npm run cypress
 
 * We can check that our test is passing right now. 
 
-## The matter now is this test is tied up to our backend implementation, that is something that could be nice, specially in integrtion tests but in development time can be nasty. Lets change this to use a predictable behavior.
+## The matter now is this test is tied up to our backend implementation, that is something that could be nice, specially in integration tests but in development time can be nasty. Lets change this to use a predictable behavior.
 
 ```diff
 describe('Hotel viewer initialization', () => {
@@ -142,7 +142,7 @@ describe('Hotel viewer initialization', () => {
 });
 ```
 
-* This is working but is really a common pattern that cypress ofers another alternative:
+* This is working but is really a common pattern that cypress offers another alternative:
 
 ```diff
 describe('Hotel viewer initialization', () => {

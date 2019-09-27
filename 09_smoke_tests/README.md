@@ -485,4 +485,231 @@ describe('Hotels smoke tests', () => {
     });
 });
 ```
-* We can notice that the second test will depend on the first one unless we do something. Lets implement both.
+* We can notice that the second test will depend on the first one unless we do something. But also the first one implemented alone is not repeatable, lets demonstrate this:
+
+```javascript
+describe('Hotels smoke tests', () => {
+    describe('Hotel form', () => {
+        /*diff*/
+        const newHotel = {
+            id: 'Test id',
+            picture: 'Test picyture',
+            name: 'Test hotel',
+            description: 'This is a foo description',
+            city: 'Seattle',
+            address: 'Foo address',
+            rating: 4,
+        }
+        /*diff*/
+        context('user fullfils form valid fields', () => {
+            describe('user clicks on save', () => {
+                it('adds a new hotel', () => {
+                    /*diff*/
+                    // Arrange
+                    cy.server();
+                    cy.route('POST', 'http://localhost:3000/api/hotels')
+                        .as('create');
+                    cy.route('GET', 'http://localhost:3000/api/cities')
+                        .as('load');
+
+                    cy.visit('/#/hotel-edit/new');
+                    cy.wait('@load');
+
+                    // Act
+                    // Type name
+                    cy.get(':nth-child(1) > :nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.name);
+
+                    // Type picture    
+                    cy.get(':nth-child(1) > :nth-child(3) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.picture);
+
+                    // Type description
+                    cy.get('form > :nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.description);
+
+                    // Select city
+                    cy.get('.MuiSelect-root').click();
+                    cy.get('[data-value="Seattle"]').click();
+
+                    cy.get('.MuiButton-label').click();
+
+                    cy.wait('@create');
+
+                    // Assert
+                    cy.get('.HotelCollectionComponentInner-listLayout-248 > div')
+                        .should('have.length', 1);
+                    /*diff*/
+                });
+            });
+        });
+    });
+
+    describe('Hotel viewer', () => {
+        describe('hotel page loads', () => {
+            it('renders a list of hotels', () => {
+                
+            });
+        });
+    });
+});
+```
+
+* We can check that if we run again the test the number of items is different making this test not repeatable. Lets fix this.
+
+```diff
+describe('Hotels smoke tests', () => {
+    describe('Hotel form', () => {
+        const newHotel = {
+            id: 'Test id',
+            picture: 'Test picyture',
+            name: 'Test hotel',
+            description: 'This is a foo description',
+            city: 'Seattle',
+            address: 'Foo address',
+            rating: 4,
+        };
+        
++       beforeEach(() => {
++           cy.request('DELETE', 'http://localhost:3000/api/hotels/all');
++       });
+
+        context('user fullfils form valid fields', () => {
+            describe('user clicks on save', () => {
+                it('adds a new hotel', () => {
+                    // Arrange
+                    cy.server();
+                    cy.route('POST', 'http://localhost:3000/api/hotels')
+                        .as('create');
+                    cy.route('GET', 'http://localhost:3000/api/cities')
+                        .as('load');
+
+                    cy.visit('/#/hotel-edit/new');
+                    cy.wait('@load');
+
+                    // Act
+                    // Type name
+                    cy.get(':nth-child(1) > :nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.name);
+
+                    // Type picture    
+                    cy.get(':nth-child(1) > :nth-child(3) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.picture);
+
+                    // Type description
+                    cy.get('form > :nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.description);
+
+                    // Select city
+                    cy.get('.MuiSelect-root').click();
+                    cy.get('[data-value="Seattle"]').click();
+
+                    cy.get('.MuiButton-label').click();
+
+                    cy.wait('@create');
+
+                    // Assert
+                    cy.get('.HotelCollectionComponentInner-listLayout-248 > div')
+                        .should('have.length', 1);
+                });
+            });
+        });
+    });
+
+    describe('Hotel viewer', () => {
+        describe('hotel page loads', () => {
+            it('renders a list of hotels', () => {
+                
+            });
+        });
+    });
+});
+```
+* Now our test is completly repeatable. But waht about if we want to check a list of items in our test. Lets get it this done.
+
+```javascript
+describe('Hotels smoke tests', () => {
+    describe('Hotel form', () => {
+        const newHotel = {
+            id: 'Test id',
+            picture: 'Test picyture',
+            name: 'Test hotel',
+            description: 'This is a foo description',
+            city: 'Seattle',
+            address: 'Foo address',
+            rating: 4,
+        };
+
+        beforeEach(() => {
+            cy.request('DELETE', 'http://localhost:3000/api/hotels/all');
+        });
+
+        context('user fullfils form valid fields', () => {
+            describe('user clicks on save', () => {
+                it('adds a new hotel', () => {
+                    // Arrange
+                    cy.server();
+                    cy.route('POST', 'http://localhost:3000/api/hotels')
+                        .as('create');
+                    cy.route('GET', 'http://localhost:3000/api/cities')
+                        .as('load');
+
+                    cy.visit('/#/hotel-edit/new');
+                    cy.wait('@load');
+
+                    // Act
+                    // Type name
+                    cy.get(':nth-child(1) > :nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.name);
+
+                    // Type picture    
+                    cy.get(':nth-child(1) > :nth-child(3) > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.picture);
+
+                    // Type description
+                    cy.get('form > :nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input')
+                        .type(newHotel.description);
+
+                    // Select city
+                    cy.get('.MuiSelect-root').click();
+                    cy.get('[data-value="Seattle"]').click();
+
+                    cy.get('.MuiButton-label').click();
+
+                    cy.wait('@create');
+
+                    // Assert
+                    cy.get('.HotelCollectionComponentInner-listLayout-248 > div')
+                        .should('have.length', 1);
+                });
+            });
+        });
+    });
+
+    describe('Hotel viewer', () => {
+        /*diff*/
+        beforeEach(() => {
+            cy.fixture('hotels-server')
+                .then((hotels) => {
+                    cy.request(
+                        'POST',
+                        'http://localhost:3000/api/hotels/bulkload',
+                        { hotels }
+                    );
+                    cy.server();
+                    cy.route('GET', 'http://localhost:3000/api/hotels').as('load');
+                    cy.visit('/#/hotel-collection');
+                    cy.wait('@load');
+                });
+        });
+        /*diff*/
+        describe('hotel page loads', () => {
+            it('renders a list of hotels', () => {
+                cy.get('.HotelCollectionComponentInner-listLayout-94 > div')
+                    .should('have.length', 10);
+            });
+        });
+        /*diff*/
+    });
+});
+```

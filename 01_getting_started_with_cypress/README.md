@@ -66,7 +66,7 @@ describe('Login input', () => {
 * In order to get results from cypress, we need our application running, in a terminal start our app by:
 
 ```bash
-npm start
+npm start:dev
 ```
 
 * Open a new terminal and run cypress

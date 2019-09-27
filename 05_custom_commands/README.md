@@ -18,7 +18,7 @@ describe('Hotel viewer initialization', () => {
 });
 ```
 
-* The lines of code surround by __custom candidate commeents__ are the ones to be repeated over the tests.
+* The lines of code surround by __custom candidate comments__ are the ones to be repeated over the tests.
 * We can open/create __./hotel-viewer/cypress/support/commands.js__ and create a new command as follows:
 
 ```javascript
