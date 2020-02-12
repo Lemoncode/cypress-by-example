@@ -53,7 +53,7 @@ describe('Hotel edit form submission', () => {
 });
 ```
 
-* Lets give it a try.
+* Let's give it a try.
 
 * Now it's time to fill the form:
 

@@ -25,7 +25,7 @@ export const getHotelCollection = (): Promise<HotelEntityModel[]> => {
 }
 ```
 
-* We just wrap up our load function on a setTimout function with a 5 seconds delay, that is a bigger delay that cyppress is going to apply for tests.
+* We just wrap up our load function on a setTimout function with a 4 seconds delay, that is a bigger delay that cyppress is going to apply for tests.
 
 * If we run our test is going to crash. Cypress applies around 3 seconds waiting for a request.
 
@@ -49,7 +49,7 @@ describe('Hotel viewer initialization', () => {
 ```
 
 1. We create an alias for this request.
-2. We tell cypress that waits for the aliased request. Will wait until this reques is done.
+2. We tell cypress that waits for the aliased request. Will wait until this request is done.
 
 * Let's remove delay to don't have issues in future demos:
 

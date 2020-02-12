@@ -1,6 +1,6 @@
 ## In this demo we're going to emulate an error on an HttpRequest.
 
-* The first thing that we need, is to create a new request that produce an error, edit as follows __./hotel-viewer/cypress/integration/hotel-edit-submission.spec.js__
+* The first thing that we need, is to create a new request that produce an error. Edit as follows __./hotel-viewer/cypress/integration/hotel-edit-submission.spec.js__
 
 ```javascript
 describe('Hotel edit form submission', () => {

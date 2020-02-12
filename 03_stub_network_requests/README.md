@@ -11,6 +11,40 @@ describe('Hotel viewer initialization', () => {
     });
 });
 ```
+
+* The above code can be changed by something more robust, we can find the number of hotels using _data-testid_
+
+```js
+describe('Hotel viewer initialization', () => {
+    it('displays hotels on page load', () => {
+        cy.visit('/#/hotel-collection');
+        cy.get('[data-testid="hotels"] > div')
+            .should('have.length', 10);
+    });
+});
+```
+
+* Modify _./src\pods\hotel\hotel-collection\hotel-collection.component.tsx_
+
+```diff
+const HotelCollectionComponentInner = (props: Props) => {
+    const { hotelCollection, classes, onClickFilterOption } = props;
+    return (
+        <>
+            <div className={classes.filterLayout}>
+                <HotelFilterComponent onClickFilterOption={onClickFilterOption} />
+            </div>
+-           <div className={classes.listLayout}>
++           <div className={classes.listLayout} data-testid="hotels">
+                {
+                    hotelCollection.map((hotel) => <HotelCard key={hotel.id} hotel={hotel} />)
+                }
+            </div>
+        </>
+    );
+}
+```
+
 * If we run our app
 
 ```bash
@@ -39,6 +73,7 @@ describe('Hotel viewer initialization', () => {
     });
 });
 ```
+
 * By now we are just passing an empty array.
 
 * Lets mock the response with some values:
@@ -78,6 +113,8 @@ describe('Hotel viewer initialization', () => {
     });
 });
 ```
+
+* _cy.server()_ enables stub requests.
 
 * Our test is now passing with our stub values.
 

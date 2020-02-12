@@ -1,4 +1,4 @@
-## Lets intoduce a simple selector example. We're going to write a test to verify that our input accept text, lets start by typing a new test.
+## Let's intoduce a simple selector example. We're going to write a test to verify that our input accept text, lets start by typing a new test.
 
 ```javascript
 describe('Login input', () => {
@@ -18,7 +18,7 @@ describe('Login input', () => {
 });
 ```
 
-1. Notice that we are using __only__ so in this test case, this is the only assertion that will run.
+1. Notice that we are using __only__, so in this test case, this is the only assertion that will run.
 
 * Now if we run cypress, only one test is running, if we click on the bullseye, we can select any element in our page.
 
@@ -31,6 +31,7 @@ it.only('name accepts input', () => {
 +       .type('admin');
 });
 ```
+
 * If we run our test again we will find that the text is typed into the desire input. 
 * Now we can add a verify statement for this test.
 
@@ -43,7 +44,7 @@ it.only('name accepts input', () => {
 });
 ```
 
-* For last lest make a little refactor into our code.
+* Let's make a little refactor into our code.
 
 ```javascript
 it.only('name accepts input', () => {

@@ -8,7 +8,7 @@ Cypress is a tool that allow us to test our applications on a real browser.
 ```bash
 npm i cypress -D
 ```
-* Creates a new folder in our root __cypress__, under that folder, creates:
+* Creates a new folder in our root __./cypress__, under that folder, creates:
     - __fixtures__
     - __integration__
     - __plugins__
@@ -44,6 +44,8 @@ node_modules/.bin/cypress open
 * Create __cypress/integration/first.spec.js__
 
 ```javascript
+/// <reference types="Cypress" /> 
+
 describe('Simple test', () => {
     it('Works', () => {
         expect(true).to.equal(true);
@@ -51,11 +53,15 @@ describe('Simple test', () => {
 });
 ```
 
-## Great then we have created our first test successfully. But Cypress is bout to get into the real app, so lets make something more interesting. Lets visit a page in our app. 
+* The first line is to ahieve Cypress intellisense. Let's run this test from cypress window and check out that everything is ok.
+
+## Great then we have created our first test successfully. But Cypress is bout to get into the real app, so lets make something more interesting. Let's visit a page in our app. 
 
 * Create __cypress/integration/login-input.spec.js__
 
 ```javascript
+/// <reference types="Cypress" /> 
+
 describe('Login input', () => {
     it('visist the login page', () => {
         cy.visit('http://localhost:8080');
@@ -75,7 +81,7 @@ npm start:dev
 npm run cypress
 ```
 
-We're going to visit this url _http://localhost:8080_ a lot, so we can edit __cypress.json__ to make our lives a little bit easier:
+We're going to visit this url _http://localhost:8080_ a lot, so we can edit __./cypress.json__ to make our lives a little bit easier:
 
 ```json
 {

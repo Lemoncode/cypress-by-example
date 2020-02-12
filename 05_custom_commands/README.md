@@ -60,9 +60,9 @@ describe('Hotel viewer initialization', () => {
 });
 ```
 
-* Lets give it a try.
+* Let's give it a try.
 
-* Lets say that I want to be more flexible with the initial data in our custom command, what I need is feed this data, we can do this, by feeding params to our callback function. Lets modify __./hotel-viewer/cypress/support/commands.js__
+* Let's say that I want to be more flexible with the initial data in our custom command, what I need is feed this data, we can do this, by feeding params to our callback function. Let's modify __./hotel-viewer/cypress/support/commands.js__
 
 ```diff
 -Cypress.Commands.add('loadAndVisit', () => {
