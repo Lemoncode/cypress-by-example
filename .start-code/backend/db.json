@@ -298,40 +298,12 @@
     },
     {
       "id": "0267c28a-27e4-11e6-ab3b-5f1a4c39ef62",
-      "type": "hotel",
-      "name": "Hotel Andra",
-      "created": 1464777092776,
-      "modified": 1464777092776,
-      "address1": "2000 4th Ave",
-      "airportCode": "SEA",
-      "amenityMask": 1441795,
-      "city": "Seattle",
-      "confidenceRating": 45,
-      "countryCode": "US",
-      "deepLink": "http://www.travelnow.com/templates/55505/hotels/119562/overview?lang=en&amp;currency=USD&amp;standardCheckin=null/null/null&amp;standardCheckout=null/null/null",
-      "highRate": 239.5368,
-      "hotelId": 119562,
-      "hotelInDestination": true,
-      "hotelRating": 4,
-      "location": {
-        "latitude": 47.61318,
-        "longitude": -122.34009
-      },
-      "locationDescription": "Near Pike Place Market",
-      "lowRate": 189.4252,
-      "metadata": {
-        "path": "/hotels/0267c28a-27e4-11e6-ab3b-5f1a4c39ef62"
-      },
-      "postalCode": 98121,
-      "propertyCategory": 1,
-      "proximityDistance": 11.438348,
-      "proximityUnit": "MI",
-      "rateCurrencyCode": "USD",
-      "shortDescription": "With a stay at Hotel Andra, you&apos;ll be centrally located in Seattle, minutes from Westlake Center and Pike Place Market. This 4-star hotel is within close proximity",
-      "stateProvinceCode": "WA",
       "thumbNailUrl": "/thumbnails/16950_158_t.jpg",
-      "tripAdvisorRating": 4.5,
-      "tripAdvisorRatingUrl": "http://www.tripadvisor.com/img/cdsi/img2/ratings/traveler/4.5-12345-4.gif"
+      "name": "Hotel Andra",
+      "shortDescription": "With a stay at Hotel Andra, you&apos;ll be centrally located in Seattle, minutes from Westlake Center and Pike Place Market. This 4-star hotel is within close proximity",
+      "hotelRating": 5,
+      "address1": "2000 4th Ave",
+      "city": "Seattle"
     },
     {
       "id": "026ccbae-27e4-11e6-afa7-536abd83599c",
