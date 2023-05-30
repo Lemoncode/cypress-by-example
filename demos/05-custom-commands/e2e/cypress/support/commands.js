@@ -23,3 +23,9 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("loadAndVisit", (data = 'hotels.json') => {
+  cy.visit("/hotel-collection");
+  cy.intercept("GET", "/api/hotels", { fixture: data }).as("load");
+  cy.wait("@load");
+});
