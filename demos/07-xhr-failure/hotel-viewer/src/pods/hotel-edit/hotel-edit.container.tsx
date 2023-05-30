@@ -36,7 +36,6 @@ export const HotelEditContainer: React.FunctionComponent = (props) => {
     if (isEditMode(id)) {
       await loadEditMode();
     } else {
-      // http://localhost:8080/#/hotel-edit/0
       await loadCreateMode();
     }
   };
@@ -47,18 +46,15 @@ export const HotelEditContainer: React.FunctionComponent = (props) => {
 
   const handleSave = async (hotel: Hotel) => {
     const apiHotel = mapHotelFromVmToApi(hotel);
-    // const success = await api.saveHotel(apiHotel);
-    let success = false;
     
-    if (isEditMode(id)) {
-      success = await api.updateHotel(apiHotel);
-    } else {
-      success = await api.saveHotel(apiHotel);
-    }
-
-    if (success) {
+    try {
+      if (isEditMode(id)) {
+        await api.updateHotel(apiHotel)
+      } else {
+        await api.saveHotel(apiHotel);
+      }
       navigate(linkRoutes.hotelCollection);
-    } else {
+    } catch (error) {
       alert('Error on save hotel');
     }
   };

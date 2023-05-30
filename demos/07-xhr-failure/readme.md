@@ -1,70 +1,104 @@
-## In this demo we're going to emulate an error on an HttpRequest.
+# XHR Failure
 
-* The first thing that we need, is to create a new request that produce an error. Edit as follows __./hotel-viewer/cypress/integration/hotel-edit-submission.spec.js__
+In this demo we're going to emulate an error on an HttpRequest.
+
+The first thing that we need, is to create a new request that produce an error. 
+
+First we need to update our code to handle exceptions. Lets change `handleSave` function.
+
+> Update `hotel-viewer/src/pods/hotel-edit/hotel-edit.container.tsx`
+
+```ts
+// ....
+const handleSave = async (hotel: Hotel) => {
+    const apiHotel = mapHotelFromVmToApi(hotel);
+    
+    try {
+      if (isEditMode(id)) {
+        await api.updateHotel(apiHotel)
+      } else {
+        await api.saveHotel(apiHotel);
+      }
+      navigate(linkRoutes.hotelCollection);
+    } catch (error) {
+      alert('Error on save hotel');
+    }
+  };
+// ....
+```
+
+
+We are ready to create a new test, that throws an exception.
+
+> Update `e2e/cypress/e2e/hotel-edit-submission.cy.js`
 
 ```javascript
-describe('Hotel edit form submission', () => {
-    const newHotel = {
-        id: 'Test id',
-        picture: 'Test picture',
-        name: 'Test hotel',
-        description: 'This a foo description',
-        city: 'Seattle',
-        address: 'Foo address',
-        rating: 4
-    };
+/// <reference types="Cypress" />
 
-    it('adds a new hotel', () => {
-        cy.server();
-        cy.route(
-            'POST',
-            'http://localhost:3000/api/hotels',
-            newHotel,
-        ).as('create');
-        cy.route('GET', 'http://localhost:3000/api/cities', ['Seattle', 'Birgluman']);
-        cy.visit('/#/hotel-edit/new');
+describe("Hotel edit form submission", () => {
+  //....
+  /*diff*/
+  it.only("shows an error message for failed submission", () => {
+    // https://docs.cypress.io/api/commands/intercept
+    cy.intercept("POST", "/api/hotels", {
+      statusCode: 500,
+      body: {},
+    }).as("errors");
+    cy.intercept("GET", "/api/cities", cities);
+    cy.visit("/hotel-edit/0");
 
-        cy.get(':nth-child(1) > :nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
-            .type(newHotel.name);
-        cy.get(':nth-child(1) > :nth-child(3) > .MuiInputBase-root > .MuiInputBase-input')
-            .type(newHotel.picture);
-        cy.get('form > :nth-child(2) > .MuiFormControl-root > .MuiInputBase-root > .MuiInputBase-input')
-            .type(newHotel.description);
+    /*Edit form*/
+    cy.get("#name").type(newHotel.name);
+    cy.get("#address").type(newHotel.address);
+    cy.get("#description").type(newHotel.description);
 
-        cy.get('.MuiSelect-root').click();
-        cy.get('[data-value="Seattle"]').click();
+    cy.get("#city").click();
+    cy.get('[data-value="Seattle"]').click();
+    /*Edit form*/
 
-        cy.fixture('hotels').then((hotels) => {
-            hotels.push(newHotel);
-            cy.route('GET', 'http://localhost:3000/api/hotels', hotels).as('hotelAdded');
-            cy.get('.MuiButton-label').click();
-            cy.wait('@create');
-            cy.wait('@hotelAdded');
-        });
-
-        cy.get('.HotelCollectionComponentInner-listLayout-248 > div')
-            .should('have.length', 3);
-    });
-    /*diff*/
-    it.only('shows an error message for failed submission', () => {
-        cy.server();
-        cy.route({
-            method: 'POST',
-            url: 'http://localhost:3000/api/hotels',
-            status: 500,
-            response: {}
-        }).as('errors');
-        
-        cy.route('GET', 'http://localhost:3000/api/cities', ['Seattle', 'Birgluman']);
-        cy.visit('/#/hotel-edit/new');
-
-        cy.get('.MuiButton-label').click();
-        cy.wait('@errors');
-
-        
-        cy.get('.MuiSnackbarContent-message')
-            .contains('500');
-    });
-    /*diff*/
+    cy.get(".css-115ypaa-root > .MuiButtonBase-root").click();
+    cy.wait('@errors');
+  });
+  /*diff*/
 });
+
+```
+
+- Lets run the test suit
+  - `backend` - `npm start`
+  - `hotel-viewer` - `npm run start:dev`
+  - `e2e` - `npm run test:e2e`
+
+Hummm, seems to work, but we can't see any `alert` from browser. What is going on, is that `Cypress` is not going to render any `alert`, but that doesn't mean that it's not called.
+
+What we're going to do is `stub`, the event, when `alert` is called, and check that is being called with the expected text.
+
+> Update `e2e/cypress/e2e/hotel-edit-submission.cy.js`
+
+```diff
+  it.only("shows an error message for failed submission", () => {
+    cy.intercept("POST", "/api/hotels", {
+      statusCode: 500,
+      body: {},
+    }).as("errors");
+    cy.intercept("GET", "/api/cities", cities);
+    cy.visit("/hotel-edit/0");
+
++   cy.on('window:alert', cy.stub().as('alertStub'));
+
+    /*Edit form*/
+    cy.get("#name").type(newHotel.name);
+    cy.get("#address").type(newHotel.address);
+    cy.get("#description").type(newHotel.description);
+
+    cy.get("#city").click();
+    cy.get('[data-value="Seattle"]').click();
+    /*Edit form*/
+
+    cy.get(".css-115ypaa-root > .MuiButtonBase-root").click();
+    cy.wait('@errors');
+
++   cy.get('@alertStub')
++     .should('have.been.calledWith', 'Error on save hotel');
+  });
 ```
