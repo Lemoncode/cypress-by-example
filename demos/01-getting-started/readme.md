@@ -125,10 +125,12 @@ describe('Login', () => {
 });
 ```
 
-## We can notice that when user comes to login the focus is set on login name. We are going to define a test that finds the focused element. We're on a login form, where input element that we're looking for is an input of type text, so we can write our test as follows:
+We can notice that when user comes to login the focus is set on login name. We are going to define a test that finds the focused element. We're on a login form, where input element that we're looking for is an input of type text, so we can write our test as follows:
+
+> Update `e2e/cypress/e2e/login.cy.js`
 
 ```diff
-describe('Login input', () => {
+describe('Login', () => {
     it('visist the login page', () => {
         cy.visit('/');
     });
