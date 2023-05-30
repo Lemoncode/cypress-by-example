@@ -1,4 +1,9 @@
-## Let's intoduce a simple selector example. We're going to write a test to verify that our input accept text, lets start by typing a new test.
+# Selectors introduction
+
+Let's intoduce a simple selector example. We're going to write a test to verify that our input accept text, lets start by typing a new test.
+
+
+> Update `e2e/cypress/e2e/login.cy.js`
 
 ```javascript
 describe("Login input", () => {
@@ -35,10 +40,12 @@ it.only('name accepts input', () => {
 - If we run our test again we will find that the text is typed into the desire input.
 - Now we can add a verify statement for this test.
 
+> Update `e2e/cypress/e2e/login.cy.js`
+
 ```diff
 it.only('name accepts input', () => {
     cy.visit('/');
-    cy.get(':nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
+    cy.get('#name')
         .type('admin')
 +       .should('have.value', 'admin');
 });
@@ -50,13 +57,15 @@ it.only('name accepts input', () => {
 it.only("name accepts input", () => {
   cy.visit("/");
   const typedText = "admin";
-  cy.get(":nth-child(1) > .MuiInputBase-root > .MuiInputBase-input")
+  cy.get('#name')
     .type(typedText)
     .should("have.value", typedText);
 });
 ```
 
-## If we look at our code we can notice that in all our tests we are visiting the home page. Because cypress is running mocha under the hood, we can take advantage of this. Lets refactor our code as follows:
+If we look at our code we can notice that in all our tests we are visiting the home page. Because cypress is running mocha under the hood, we can take advantage of this. Lets refactor our code as follows:
+
+> Update `e2e/cypress/e2e/login.cy.js`
 
 ```diff
 describe('Login input', () => {
@@ -78,9 +87,7 @@ describe('Login input', () => {
 +   it('name accepts input', () => {
 -       cy.visit('/');
         const typedText = 'admin';
-        cy.get(':nth-child(1) > .MuiInputBase-root > .MuiInputBase-input')
-            .type(typedText)
-            .should('have.value', typedText);
+        cy.get("#name").type(typedText).should("have.value", typedText);
     });
 });
 ```
