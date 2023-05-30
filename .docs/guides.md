@@ -1,2 +1,3 @@
 - [Command Line](https://docs.cypress.io/guides/guides/command-line)
 - [Network Requests](https://docs.cypress.io/guides/guides/network-requests)
+- [Breaking changes 12.0.0](https://docs.cypress.io/guides/references/changelog#12-0-0)

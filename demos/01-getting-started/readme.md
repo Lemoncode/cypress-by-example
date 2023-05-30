@@ -8,98 +8,111 @@ Let's create a segregate project that will host the cypress solution independent
 
 ```bash
 mkdir e2e
-cd e2e 
+cd e2e
 npm init -y
 ```
 
 Once this new project it's initialised we can install the cypress dependencies
 
-
 ```bash
 npm i cypress -D
 ```
-* Creates a new folder in our root __./cypress__, under that folder, creates:
-    - __fixtures__
-    - __integration__
-    - __plugins__
-    - __screenshots__
-    - __support__
-* Adds a new file __cypress.json__
-* After inslation we can open __cypress__ by using:
+
+## Configuration
+
+Once `Cypress` is installed we can run commands against it.
 
 ```bash
-node_modules\.bin\cypress open
+npx cypress open
 ```
 
-* In a windows terminal:
+This command will open the `Cypress project`. Notice that there's not such project, in this case if we open a not exitsing project, we will be prompted with a configuration wizard to set up the project. In order to do this, lets update the `package.json` file:
 
-```bash
-node_modules/.bin/cypress open
-```
-* This runs the cypress UI
-
-* We do not want to run this command every time that we launch cypress, so lets modify our __package.json__ for this purpose:
+> Update `./e2e/package.json`
 
 ```diff
+....
 "scripts": {
-    "start": "webpack-dev-server --mode development --inline --hot --open",
-    "build": "webpack --mode development",
-+   "cypress": "cypress open", 
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "echo \"Error: no test specified\" && exit 1",
++   "test:e2e": "cypress open"
+},
+....
 ```
+
+And now we can simply run it from `e2e directory`.
+
+```bash
+npm run test:e2e
+```
+
+- This will prompt a wizard, **select** `e2e testing`.
+- `Cypress` warns us with the new files that will be created:
+  - `cypress.config.js`
+  - `cypress/support/e2e.js`
+  - `cypress/support/commands.js`
+  - `cypress/fixtures/example.json`
+- **Click** on `Continue`
+- `Cypress` asks now about the environment, `Chrome` or `Electron`
+  - **Select** `Chrome`
+  - **Click** on `Start E2E testing on Chrome`
+
+A new window now is open on a `Chrome` instance managed by `Cypress` process, we can create a complete example guide from here and have and overview on how we can work with `Cypress`. 
+
+**Remove** `e2e directory contents`, and lets create our first test.
+
+> Create ``
 
 ## Now that we have already installed cypress is time to create our first test
 
-* Create __cypress/integration/first.spec.js__
+- Create **cypress/integration/first.spec.js**
 
 ```javascript
-/// <reference types="Cypress" /> 
+/// <reference types="Cypress" />
 
-describe('Simple test', () => {
-    it('Works', () => {
-        expect(true).to.equal(true);
-    });
+describe("Simple test", () => {
+  it("Works", () => {
+    expect(true).to.equal(true);
+  });
 });
 ```
 
-* The first line is to ahieve Cypress intellisense. Let's run this test from cypress window and check out that everything is ok.
+- The first line is to ahieve Cypress intellisense. Let's run this test from cypress window and check out that everything is ok.
 
-## Great then we have created our first test successfully. But Cypress is bout to get into the real app, so lets make something more interesting. Let's visit a page in our app. 
+## Great then we have created our first test successfully. But Cypress is bout to get into the real app, so lets make something more interesting. Let's visit a page in our app.
 
-* Create __cypress/integration/login-input.spec.js__
+- Create **cypress/integration/login-input.spec.js**
 
 ```javascript
-/// <reference types="Cypress" /> 
+/// <reference types="Cypress" />
 
-describe('Login input', () => {
-    it('visist the login page', () => {
-        cy.visit('http://localhost:8080');
-    });
+describe("Login input", () => {
+  it("visist the login page", () => {
+    cy.visit("http://localhost:8080");
+  });
 });
 ```
 
-* In order to get results from cypress, we need our application running, in a terminal start our app by:
+- In order to get results from cypress, we need our application running, in a terminal start our app by:
 
 ```bash
 npm start:dev
 ```
 
-* Open a new terminal and run cypress
+- Open a new terminal and run cypress
 
 ```bash
 npm run cypress
 ```
 
-We're going to visit this url _http://localhost:8080_ a lot, so we can edit __./cypress.json__ to make our lives a little bit easier:
+We're going to visit this url _http://localhost:8080_ a lot, so we can edit **./cypress.json** to make our lives a little bit easier:
 
 ```json
 {
-    "baseUrl": "http://localhost:8080"
+  "baseUrl": "http://localhost:8080"
 }
 ```
 
-* And modify out test __cypress/integration/login-input.spec.js__ as follows:
+- And modify out test **cypress/integration/login-input.spec.js** as follows:
 
 ```diff
 describe('Login input', () => {
@@ -126,4 +139,4 @@ describe('Login input', () => {
 });
 ```
 
-* Cypress, in the global object has the __focused function__ we can go on this way as well, but working with __have__ in this case is a better option.
+- Cypress, in the global object has the **focused function** we can go on this way as well, but working with **have** in this case is a better option.
