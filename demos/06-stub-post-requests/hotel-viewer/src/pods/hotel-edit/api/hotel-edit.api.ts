@@ -17,8 +17,12 @@ export const getCities = async (): Promise<Lookup[]> => {
   return data;
 };
 
-export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
+export const updateHotel = async (hotel: Hotel): Promise<boolean> => {
   const { data } = await Axios.put<Hotel>(`${hotelListUrl}/${hotel.id}`, hotel);
+  return true;
+};
 
+export const saveHotel = async (hotel: Hotel): Promise<boolean> => {
+  await Axios.post<Hotel>(`${hotelListUrl}`, hotel);
   return true;
 };
