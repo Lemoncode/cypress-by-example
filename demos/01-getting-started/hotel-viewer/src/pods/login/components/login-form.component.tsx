@@ -20,7 +20,7 @@ export const LoginFormComponent: React.FunctionComponent<Props> = (props) => {
     >
       {() => (
         <Form className={classes.root}>
-          <TextFieldComponent name="name" label="Name" />
+          <TextFieldComponent name="name" label="Name" autoFocus={true} />
           <TextFieldComponent
             name="password"
             label="Password"

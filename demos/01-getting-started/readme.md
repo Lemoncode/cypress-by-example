@@ -60,13 +60,9 @@ A new window now is open on a `Chrome` instance managed by `Cypress` process, we
 
 **Remove** `e2e directory contents`, and lets create our first test.
 
-> Create ``
+> Create `e2e/cypress/e2e/first.cy.js`
 
-## Now that we have already installed cypress is time to create our first test
-
-- Create **cypress/integration/first.spec.js**
-
-```javascript
+```js
 /// <reference types="Cypress" />
 
 describe("Simple test", () => {
@@ -78,44 +74,50 @@ describe("Simple test", () => {
 
 - The first line is to ahieve Cypress intellisense. Let's run this test from cypress window and check out that everything is ok.
 
-## Great then we have created our first test successfully. But Cypress is bout to get into the real app, so lets make something more interesting. Let's visit a page in our app.
+> Run `npm run test:e2e`
 
-- Create **cypress/integration/login-input.spec.js**
+Great then we have created our first test successfully. But Cypress is about to get into the real app, so lets make something more interesting. Let's visit a page in our app.
+
+> Create `e2e/cypress/e2e/login.cy.js`
 
 ```javascript
 /// <reference types="Cypress" />
 
-describe("Login input", () => {
+describe("Login", () => {
   it("visist the login page", () => {
     cy.visit("http://localhost:8080");
   });
 });
 ```
 
-- In order to get results from cypress, we need our application running, in a terminal start our app by:
+In order to get results from cypress, we need our application running, in a terminal start our app by:
 
-```bash
-npm start:dev
-```
+> Open two new terminals, and serve `hotel-viewer` and `backend`
 
-- Open a new terminal and run cypress
+> Open a new terminal and run cypress: `npm run test:e2e` and run `login.cy.js` on `Cypress managed Chrome`
 
-```bash
-npm run cypress
-```
 
-We're going to visit this url _http://localhost:8080_ a lot, so we can edit **./cypress.json** to make our lives a little bit easier:
+We're going to visit this url _http://localhost:8080_ a lot, so we can edit **./** to make our lives a little bit easier:
 
-```json
-{
-  "baseUrl": "http://localhost:8080"
-}
-```
-
-- And modify out test **cypress/integration/login-input.spec.js** as follows:
+> Update `e2e/cypress.config.js`
 
 ```diff
-describe('Login input', () => {
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+-   setupNodeEvents(on, config) {
+-     // implement node event listeners here
+-   },
++   baseUrl: 'http://localhost:8080/#'
+  },
+});
+```
+
+> And modify out test `e2e/cypress/e2e/login.cy.js` as follows:
+
+```diff
+describe('Login', () => {
     it('visist the login page', () => {
 -       cy.visit('http://localhost:8080');
 +       cy.visit('/');

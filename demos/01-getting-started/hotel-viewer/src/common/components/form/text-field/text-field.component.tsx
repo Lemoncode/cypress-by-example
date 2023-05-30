@@ -7,7 +7,7 @@ import * as classes from './text-field.styles';
 export const TextFieldComponent: React.FunctionComponent<TextFieldProps> = (
   props
 ) => {
-  const { name, onChange, onBlur, value, error, inputProps } = props;
+  const { name, onChange, onBlur, value, error, inputProps, autoFocus } = props;
 
   const [field, meta] = Boolean(name) ? useField(name) : [];
   const hasError = error || Boolean(meta && meta.touched && meta.error);
@@ -24,6 +24,7 @@ export const TextFieldComponent: React.FunctionComponent<TextFieldProps> = (
       error={hasError}
       helperText={hasError ? helperText : ''}
       fullWidth={true}
+      autoFocus={autoFocus}
       margin="normal"
       inputProps={{
         ...inputProps,
