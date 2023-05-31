@@ -5,10 +5,10 @@ We're going to create a new spec to check that hotels are filtered. Before we ca
 > Create `hotel-viewer/src/pods/hotel-collection/components/hotel-filter-panel.component.tsx`
 
 ```tsx
-import * as React from 'react';
-import { Button, ButtonGroup } from '@mui/material';
+import * as React from "react";
+import { Button, ButtonGroup } from "@mui/material";
 
-export type FilterOptions = 'all' | 'bad' | 'good' | 'excellent';
+export type FilterOptions = "all" | "bad" | "good" | "excellent";
 
 interface Props {
   onClickFilterOption: (filterOptions: FilterOptions) => void;
@@ -20,10 +20,10 @@ export const HotelFilterComponent: React.FC<Props> = (props: Props) => {
 
   return (
     <ButtonGroup>
-      <Button onClick={filterOptionHandler('all')}>all</Button>
-      <Button onClick={filterOptionHandler('bad')}>bad</Button>
-      <Button onClick={filterOptionHandler('good')}>good</Button>
-      <Button onClick={filterOptionHandler('excellent')}>excellent</Button>
+      <Button onClick={filterOptionHandler("all")}>all</Button>
+      <Button onClick={filterOptionHandler("bad")}>bad</Button>
+      <Button onClick={filterOptionHandler("good")}>good</Button>
+      <Button onClick={filterOptionHandler("excellent")}>excellent</Button>
     </ButtonGroup>
   );
 };
@@ -44,15 +44,15 @@ export const filterLayout = css`
 > Update `hotel-viewer/src/pods/hotel-collection/hotel-collection.container.tsx`
 
 ```tsx
-import * as React from 'react';
-import { HotelCollectionComponent } from './hotel-collection.component';
+import * as React from "react";
+import { HotelCollectionComponent } from "./hotel-collection.component";
 import {
   HotelFilterComponent,
   FilterOptions,
-} from './components/hotel-filter-panel.component';
-import { useHotelCollection } from './hotel-collection.hook';
-import * as classes from './hotel-collection.styles';
-import { HotelEntityVm } from './hotel-collection.vm';
+} from "./components/hotel-filter-panel.component";
+import { useHotelCollection } from "./hotel-collection.hook";
+import * as classes from "./hotel-collection.styles";
+import { HotelEntityVm } from "./hotel-collection.vm";
 
 const filterReactions =
   (hotelCollection: HotelEntityVm[]) => (filterOption: FilterOptions) => {
@@ -70,7 +70,7 @@ let doFilterReactions;
 
 export const HotelCollectionContainer = () => {
   const { hotelCollection, loadHotelCollection } = useHotelCollection();
-  const [filterOption, setFilterOption] = React.useState<FilterOptions>('all');
+  const [filterOption, setFilterOption] = React.useState<FilterOptions>("all");
   const [filteredCollection, setFilteredCollection] = React.useState<
     HotelEntityVm[]
   >([]);
@@ -102,120 +102,141 @@ export const HotelCollectionContainer = () => {
     </>
   );
 };
-
 ```
 
-* We're going to create a new fixture with more data to test all our options, create __./hotel-viewer/cypress/fixtures/hotels-extended.json__
+We are ready to test the new feature, to do that, we're going to create a new fixture with more data to test all our options.
+
+> Create `e2e/cypress/fixtures/hotels-extended.json`
 
 ```json
 [
-    {
-        "id": "0248058a-27e4-11e6-ace6-a9876eff01b3",
-        "picture": "/thumbnails/50947_264_t.jpg",
-        "name": "Motif Seattle",
-        "city": "Seattle",
-        "shortDescription": "With a stay at Motif Seattle, you will be centrally located in Seattle, steps from 5th Avenue Theater and minutes from Pike Place Market. This 4-star hotel is within",
-        "address": "1415 5th Ave",
-        "hotelRating": 2
-    },
-    {
-        "id": "024bd61a-27e4-11e6-ad95-35ed01160e57",
-        "picture": "/thumbnails/16673_260_t.jpg",
-        "name": "The Westin Seattle",
-        "city": "Burmiggan", 
-        "address": "1900 5th Ave",
-        "shortDescription": "With a stay at The Westin Seattle, you'll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to",
-        "hotelRating": 4
-    },
-    {
-        "id": "0248058a-27e4-11e6-ace6-a9876eff01cd",
-        "picture": "/thumbnails/50947_264_t.jpg",
-        "name": "Seattle Marina",
-        "city": "Seattle",
-        "shortDescription": "With a stay at Motif Seattle, you will be centrally located in Seattle, steps from 5th Avenue Theater and minutes from Pike Place Market. This 4-star hotel is within",
-        "address": "1415 5th Ave",
-        "hotelRating": 1
-    },
-    {
-        "id": "024bd61a-27e4-11e6-ad95-35ed01160eff",
-        "picture": "/thumbnails/16673_260_t.jpg",
-        "name": "The Eastin Seattle",
-        "city": "Burmiggan", 
-        "address": "1900 5th Ave",
-        "shortDescription": "With a stay at The Westin Seattle, you'll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to",
-        "hotelRating": 3
-    }
+  {
+    "id": "0248058a-27e4-11e6-ace6-a9876eff01b3",
+    "picture": "/thumbnails/50947_264_t.jpg",
+    "name": "Motif Seattle",
+    "city": "Seattle",
+    "shortDescription": "With a stay at Motif Seattle, you will be centrally located in Seattle, steps from 5th Avenue Theater and minutes from Pike Place Market. This 4-star hotel is within",
+    "address": "1415 5th Ave",
+    "hotelRating": 2
+  },
+  {
+    "id": "024bd61a-27e4-11e6-ad95-35ed01160e57",
+    "picture": "/thumbnails/16673_260_t.jpg",
+    "name": "The Westin Seattle",
+    "city": "Burmiggan",
+    "address": "1900 5th Ave",
+    "shortDescription": "With a stay at The Westin Seattle, you'll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to",
+    "hotelRating": 4
+  },
+  {
+    "id": "0248058a-27e4-11e6-ace6-a9876eff01cd",
+    "picture": "/thumbnails/50947_264_t.jpg",
+    "name": "Seattle Marina",
+    "city": "Seattle",
+    "shortDescription": "With a stay at Motif Seattle, you will be centrally located in Seattle, steps from 5th Avenue Theater and minutes from Pike Place Market. This 4-star hotel is within",
+    "address": "1415 5th Ave",
+    "hotelRating": 1
+  },
+  {
+    "id": "024bd61a-27e4-11e6-ad95-35ed01160eff",
+    "picture": "/thumbnails/16673_260_t.jpg",
+    "name": "The Eastin Seattle",
+    "city": "Burmiggan",
+    "address": "1900 5th Ave",
+    "shortDescription": "With a stay at The Westin Seattle, you'll be centrally laocated in Seattle, steps from Westlake Center and minutes from Pacific Place. This 4-star hotel is close to",
+    "hotelRating": 3
+  }
 ]
 ```
 
-* Create a new spec file __./hotel-viewer/cypress/integration/hotel-viewer-filter.spec.js__
+> Create `e2e/cypress/e2e/hotel-viewer-filter.cy.js`
 
 ```javascript
-describe('Filter panel', () => {
-    it('filters hotels by rating', () => {
-        cy.loadAndVisit('fixture:hotels-extended'); // [1]
-    });
+/// <reference types="Cypress" />
+
+describe("Filter panel", () => {
+  it("filters hotels by rating", () => {
+    cy.loadAndVisit("hotels-extended.json"); // [1]
+  });
 });
 ```
+
 1. We're passing the new extended fixture. We can run this and see if it works.
 
-* Now lets find a button and click on it. One strategy is to use __contains__. This command will find what ever inner text inside an HTML element and retrieve to us.
+Now lets find a button and click on it. One strategy is to use `contains`. This command will find what ever inner text inside an HTML element and retrieve to us.
 
 ```javascript
-describe('Filter panel', () => {
-    it('filters hotels by rating', () => {
-        cy.loadAndVisit('fixture:hotels-extended');
-
-        cy.contains('bad').click(); // [2]
-    });
+describe("Filter panel", () => {
+  it("filters hotels by rating", () => {
+    cy.loadAndVisit("hotels-extended.json");
+    /*diff*/
+    cy.contains("bad").click(); // [2]
+    /*diff*/
+  });
 });
 ```
 
-2. Because we're using __material-ui__ the inner text is transform and we see it on upper case.
+2. Because we're using **material-ui** the inner text is transform and we see it on upper case.
 
-* We can assert now
+- We can assert now
 
 ```javascript
-describe('Filter panel', () => {
-    it('filters hotels by rating', () => {
-        cy.loadAndVisit('fixture:hotels-extended');
+describe("Filter panel", () => {
+  it("filters hotels by rating", () => {
+    cy.loadAndVisit("hotels-extended.json");
 
-        cy.contains('bad').click();
-
-        cy.get('.HotelCollectionComponentInner-listLayout-94 > div')
-            .should('have.length', 2); // [1]
-    });
+    cy.contains("bad").click();
+    /*diff*/
+    cy.get('[data-testid="hotels"] > li').should("have.length", 2); // [1]
+    /*diff*/
+  });
 });
 ```
 
 1. Because we have filtered, we're expecting that this list have two items.
 
-* Now we can create segragate tests for each filter value or instead use a cypress feature that avoid code duplication
+Now we can create segragate tests for each filter value, or instead use a `Cypress` feature that avoid code duplication. Lets remove the current filtering action, and update the test.
+
+> Update `e2e/cypress/e2e/hotel-viewer-filter.cy.js`
+
+```diff
+describe("Filter panel", () => {
+  it("filters hotels by rating", () => {
+    cy.loadAndVisit("hotels-extended.json");
+
+-   cy.contains("bad").click();
+-
+-   cy.get('[data-testid="hotels"] > li').should("have.length", 2);
+  });
+});
+```
 
 ```javascript
-describe('Filter panel', () => {
-    it('filters hotels by rating', () => {
-        cy.loadAndVisit('fixture:hotels-extended');
+describe("Filter panel", () => {
+  it("filters hotels by rating", () => {
+    cy.loadAndVisit("hotels-extended.json");
 
-        const filters = [ // [1]
-            { value: 'all', expectedLength: 4 },
-            { value: 'bad', expectedLength: 2 },
-            { value: 'good', expectedLength: 1 },
-            { value: 'excellent', expectedLength: 1 },
-        ];
+    const filters = [
+      // [1]
+      { value: "all", expectedLength: 4 },
+      { value: "bad", expectedLength: 2 },
+      { value: "good", expectedLength: 1 },
+      { value: "excellent", expectedLength: 1 },
+    ];
 
-        cy.wrap(filters) // [2]
-            .each((filter) => { // [3]
-                const { value, expectedLength } = filter;
-                cy.contains(value).click();
-        
-                cy.get('.HotelCollectionComponentInner-listLayout-94 > div')
-                    .should('have.length', expectedLength); 
-            });
-    });
+    cy.wrap(filters) // [2]
+        .each((filter) => { // [3]
+            const { value, expectedLength } = filter;
+            cy.contains(value).click();
+            cy.get('[data-testid="hotels"] > li').should(
+                "have.length",
+                expectedLength
+            );
+        });
+  });
 });
 ```
 
 1. We create a new array of objects. The fields that we're using are value (filtering value) and expectedLenght (the length expectation after filtering).
-2. Then we user __wrap__, this will allow us to use __each__.
+2. Then we user `wrap`, this will allow us to use `each`.
 3. For last in each iteration we access an onbject of filters array. Is inside this callback where we do the test.
