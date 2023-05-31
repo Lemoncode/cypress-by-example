@@ -1,0 +1,13 @@
+{
+  "hotels": [
+    {
+      "id": 1,
+      "thumbNailUrl": "",
+      "name": "Test hotel",
+      "shortDescription": "This is a foo description",
+      "hotelRating": 3,
+      "address1": "Foo address",
+      "city": "Seattle"
+    }
+  ]
+}
