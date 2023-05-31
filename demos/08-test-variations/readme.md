@@ -1,6 +1,109 @@
 # Test Varaitions
 
-We're going to create a new spec to check that hotels are filtered.
+We're going to create a new spec to check that hotels are filtered. Before we can do that we're going to refactor our solution, and introduce a new feature, a filter.
+
+> Create `hotel-viewer/src/pods/hotel-collection/components/hotel-filter-panel.component.tsx`
+
+```tsx
+import * as React from 'react';
+import { Button, ButtonGroup } from '@mui/material';
+
+export type FilterOptions = 'all' | 'bad' | 'good' | 'excellent';
+
+interface Props {
+  onClickFilterOption: (filterOptions: FilterOptions) => void;
+}
+
+export const HotelFilterComponent: React.FC<Props> = (props: Props) => {
+  const filterOptionHandler = (filterOption: FilterOptions) => () =>
+    props.onClickFilterOption(filterOption);
+
+  return (
+    <ButtonGroup>
+      <Button onClick={filterOptionHandler('all')}>all</Button>
+      <Button onClick={filterOptionHandler('bad')}>bad</Button>
+      <Button onClick={filterOptionHandler('good')}>good</Button>
+      <Button onClick={filterOptionHandler('excellent')}>excellent</Button>
+    </ButtonGroup>
+  );
+};
+```
+
+> Update `hotel-viewer/src/pods/hotel-collection/hotel-collection.styles.ts`
+
+```ts
+/*diff*/
+export const filterLayout = css`
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+`;
+/*diff*/
+```
+
+> Update `hotel-viewer/src/pods/hotel-collection/hotel-collection.container.tsx`
+
+```tsx
+import * as React from 'react';
+import { HotelCollectionComponent } from './hotel-collection.component';
+import {
+  HotelFilterComponent,
+  FilterOptions,
+} from './components/hotel-filter-panel.component';
+import { useHotelCollection } from './hotel-collection.hook';
+import * as classes from './hotel-collection.styles';
+import { HotelEntityVm } from './hotel-collection.vm';
+
+const filterReactions =
+  (hotelCollection: HotelEntityVm[]) => (filterOption: FilterOptions) => {
+    const reactions = {
+      all: () => hotelCollection,
+      bad: () => hotelCollection.filter((h) => h.rating >= 0 && h.rating < 2.5),
+      good: () =>
+        hotelCollection.filter((h) => h.rating >= 2.5 && h.rating < 4),
+      excellent: () => hotelCollection.filter((h) => h.rating >= 4),
+    };
+    return reactions[filterOption]();
+  };
+
+let doFilterReactions;
+
+export const HotelCollectionContainer = () => {
+  const { hotelCollection, loadHotelCollection } = useHotelCollection();
+  const [filterOption, setFilterOption] = React.useState<FilterOptions>('all');
+  const [filteredCollection, setFilteredCollection] = React.useState<
+    HotelEntityVm[]
+  >([]);
+
+  React.useEffect(() => {
+    loadHotelCollection();
+  }, []);
+
+  React.useEffect(() => {
+    if (hotelCollection && hotelCollection.length > 0) {
+      doFilterReactions = filterReactions(hotelCollection);
+    }
+  }, [hotelCollection]);
+
+  React.useEffect(() => {
+    if (hotelCollection && hotelCollection.length > 0) {
+      setFilteredCollection(doFilterReactions(filterOption));
+    }
+  }, [filterOption, hotelCollection]);
+
+  return (
+    <>
+      <HotelFilterComponent
+        onClickFilterOption={setFilterOption}
+        className={classes.filterLayout}
+      />
+
+      <HotelCollectionComponent hotelCollection={filteredCollection} />
+    </>
+  );
+};
+
+```
 
 * We're going to create a new fixture with more data to test all our options, create __./hotel-viewer/cypress/fixtures/hotels-extended.json__
 

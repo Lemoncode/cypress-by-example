@@ -18,3 +18,9 @@ export const root = css`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+
+export const filterLayout = css`
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+`;
