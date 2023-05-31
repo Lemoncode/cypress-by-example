@@ -45,14 +45,3 @@ describe("Hotel edit form submission", () => {
     });
   });
 });
-
-// /*diff*/
-// cy.fixture('hotels').then((hotels) => {
-//   // Modify fixture
-//   hotels.push(newHotel);
-//   cy.route('GET', 'http://localhost:3000/api/hotels', hotels).as('hotelAdded');
-//   cy.get('.MuiButton-label').click();
-//   cy.wait('@create');
-//   cy.wait('@hotelAdded');
-// });
-// /*diff*/
