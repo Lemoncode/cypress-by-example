@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 describe("Hotels smoke tests", () => {
   describe("Hotel form", () => {
     const newHotel = {

@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 describe("Hotel edit form submission", () => {
   const newHotel = {
     id: "Test id",

@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 describe("Filter panel", () => {
   it("filters hotels by rating", () => {
     cy.loadAndVisit("hotels-extended.json");
@@ -12,7 +10,7 @@ describe("Filter panel", () => {
     ];
 
     cy.wrap(filters).each((filter) => {
-      const { value, expectedLength } = filter;
+      const { value, expectedLength } = filter as any;
       cy.contains(value).click();
       cy.get('[data-testid="hotels"] > li').should(
         "have.length",
