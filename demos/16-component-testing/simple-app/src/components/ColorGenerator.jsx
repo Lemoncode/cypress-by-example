@@ -1,52 +1,7 @@
-# Component Testing
-
-This is a feature that was introduced on version 10. And is just and simply testing for our components.
-
-> NOTE: Use Node 18
-
-```bash
-npm create vite@latest simple-app -- --template react
-```
-
-As output we get:
-
-```
-Done. Now run:
-
-  cd simple-app
-  npm install
-  npm run dev
-```
-
-```bash
-cd simple-app && npm install
-```
-
-Nice with this on place, we can go ahead and install `Cypress`.
-
-```bash
-npm i cypress -D
-```
-
-And open `Cypress` to finish the configuration.
-
-```bash
-npx cypress open
-```
-
-> Select `Component Testing` and just use the installation wizard.
-
-Now we need a component to be tested. So lets create one. 
-
-> Create `simple-app/src/components/ColorGenerator.jsx`
-
-We have used the following links to get the color function:
-
-- https://medium.com/swlh/javascript-color-functions-c91efabdc155
-- https://www.slingacademy.com/article/javascript-convert-a-byte-array-to-a-hex-string-and-vice-versa/?utm_content=cmp-true
-
-```jsx
 import { useState } from "react";
+
+// https://medium.com/swlh/javascript-color-functions-c91efabdc155
+// https://www.slingacademy.com/article/javascript-convert-a-byte-array-to-a-hex-string-and-vice-versa/?utm_content=cmp-true
 
 const hexToBytes = (hex) => {
   var bytes = [];
@@ -106,7 +61,3 @@ export default function ColorGenerator({
     </div>
   );
 }
-
-```
-
-> Continue on: https://docs.cypress.io/guides/component-testing/react/quickstart#Testing-React-Components
