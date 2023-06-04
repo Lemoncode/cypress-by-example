@@ -371,10 +371,3 @@ None of the above commands are idempotent; they all cause side effects. Racing c
 #### You cannot add a `.catch` error handler to a failed command
 
 In Cypress there is no built in error recovery from a failed command. A command and its assertions all eventually pass, or if one fails, all remaining commands[label](https://docs.cypress.io/guides/core-concepts/interacting-with-elements) are not executed, and the test fails.
-
-### Assertions
-
-### Timeouts
-
-#### Applying Timeouts
-
