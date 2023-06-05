@@ -36,7 +36,7 @@ npx cypress open
 
 > Select `Component Testing` and just use the installation wizard.
 
-Now we need a component to be tested. So lets create one. 
+Now we need a component to be tested. So lets create one.
 
 > Create `simple-app/src/components/ColorGenerator.jsx`
 
@@ -106,7 +106,93 @@ export default function ColorGenerator({
     </div>
   );
 }
-
 ```
 
-> Continue on: https://docs.cypress.io/guides/component-testing/react/quickstart#Testing-React-Components
+Now that we have a Component to test we're going to use the `Cypress App`.
+
+```bash
+npx cypress open
+```
+
+> "Create your first spec" screen, click "Create from component".
+
+A modal will pop up listing all the component files that are found in your app (Cypress will exclude **\*.config.{js,ts}** and **\*.{cy,spec}.{js,ts,jsx,tsx}** files from this list). Expand the row for **ColorGenerator.jsx** and select the **ColorGenerator** component.
+
+A spec file was created at `simple-app/src/components/ColorGenerator.cy.jsx`
+
+```jsx
+import React from "react";
+import ColorGenerator from "./ColorGenerator";
+
+describe("<ColorGenerator />", () => {
+  it("renders", () => {
+    // see: https://on.cypress.io/mounting-react
+    cy.mount(<ColorGenerator />);
+  });
+});
+```
+
+The test executes one command: `cy.mount(<ColorGenerator />)`. The `cy.mount()` method will mount our component into the test app so we can begin running tests against it.
+
+> Run the test from App
+
+Our first test verifies the component can mount in it's default state without any errors. If there is a runtime error during test execution, the test will fail, and you will see a stack trace pointing to the source of the problem.
+
+A basic test like the one above is an excellent way to start testing a component. Cypress renders your component in a real browser, and you can use all the techniques/tools you would normally during development, such as interacting with the component in the test runner, and using the browser dev tools to inspect and debug both your tests and the component's code.
+
+### Selectors & Assertions
+
+```js
+/// <reference types="Cypress" />
+
+import React from "react";
+import ColorGenerator from "./ColorGenerator";
+
+describe("<ColorGenerator />", () => {
+  it("renders", () => {
+    // see: https://on.cypress.io/mounting-react
+    cy.mount(<ColorGenerator />);
+    cy.get('[data-cy-root=""] > div').should(
+      "have.css",
+      "background-color",
+      "rgb(255, 0, 0)"
+    );
+  });
+});
+```
+
+### Testing Interactions
+
+```js
+/// <reference types="Cypress" />
+
+import React from "react";
+import ColorGenerator from "./ColorGenerator";
+
+describe("<ColorGenerator />", () => {
+  it("renders", () => {
+    // see: https://on.cypress.io/mounting-react
+    cy.mount(<ColorGenerator />);
+    cy.get('[data-cy-root=""] > div').should(
+      "have.css",
+      "background-color",
+      "rgb(255, 0, 0)"
+    );
+  });
+  /*diff*/
+  it("changes to gray when the gray button is pressed", () => {
+    cy.mount(<ColorGenerator />);
+    cy.get("[data-cy=gray]").click();
+    cy.get('[data-cy-root=""] > div').should(
+      "have.css",
+      "background-color",
+      "rgb(85, 85, 85)"
+    );
+  });
+  /*diff*/
+});
+```
+
+```bash
+npx cypress open
+```
