@@ -1,3 +1,8 @@
 - [Command Line](https://docs.cypress.io/guides/guides/command-line)
 - [Network Requests](https://docs.cypress.io/guides/guides/network-requests)
+- [Best Practices](https://docs.cypress.io/guides/references/best-practices#Selecting-Elements)
 - [Breaking changes 12.0.0](https://docs.cypress.io/guides/references/changelog#12-0-0)
+- [Testing Library Priority](https://testing-library.com/docs/queries/about#priority)
+    - [Accessibility Tree](https://developer.mozilla.org/en-US/docs/Glossary/Accessibility_tree)
+    - [Accessible Name](https://www.w3.org/TR/accname-1.1/)
+    - [List of Roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques#roles)

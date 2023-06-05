@@ -2,6 +2,8 @@
 
 For this demo we are going to create a new project for `Cypress`. This will make easier understand what is going on with configuration.
 
+> [Demo extracted from official examples of badeball/cypress-cucumber-preprocessor](https://github.com/badeball/cypress-cucumber-preprocessor/tree/master/examples/webpack-ts)
+
 > Use Node version 18.x
 
 ```bash
@@ -20,7 +22,6 @@ npm i @badeball/cypress-cucumber-preprocessor \
     webpack
 ```
 
-
 > Create `e2e-cucumber/tsconfig.json`
 
 ```json
@@ -35,7 +36,7 @@ npm i @badeball/cypress-cucumber-preprocessor \
   "scripts": {
     "cypress:open": "cypress open",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  }
   // ....
 }
 ```
@@ -149,7 +150,6 @@ Then("I should see a search bar", () => {
     "Search the web without being tracked"
   );
 });
-
 ```
 
 Lets test that it works
@@ -158,4 +158,4 @@ Lets test that it works
 npm run cypress:open
 ```
 
-> EXERCISE: Test the login functionality of `Hotel Viewer App` using `Cucumber`
+> EXERCISE: Test the login functionality of `Hotel Viewer App` using `Cucumber`. Use the following [docs](https://www.npmjs.com/package/cypress-cucumber-preprocessor) to accomplish this task.
